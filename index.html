@@ -327,32 +327,25 @@
 
             const video = document.createElement("video");
 
-            video.src = `${i}.mp4`;
+video.src = `${i}.mp4`;
 
-            /*
-             * Permite controles próprios do vídeo.
-             * Assim, quando estiver em um slide com vídeo,
-             * sua mãe pode pausar/reproduzir normalmente.
-             */
-            video.controls = true;
+// Sem barra de controle
+video.controls = false;
 
-            /*
-             * Importante para celular.
-             * Evita que o navegador tente abrir o vídeo
-             * em uma tela separada.
-             */
-            video.playsInline = true;
+// Loop infinito
+video.loop = true;
 
-            /*
-             * Não começa automaticamente.
-             */
-            video.autoplay = false;
+// Autoplay
+video.autoplay = true;
 
-            /*
-             * Carrega o vídeo quando necessário.
-             */
-            video.preload = "metadata";
+// Necessário para o autoplay funcionar
+video.muted = true;
 
+// Melhor comportamento no celular
+video.playsInline = true;
+
+// Carrega o vídeo antecipadamente
+video.preload = "auto";
             /*
              * Mantém o vídeo em 16:9.
              */
@@ -406,40 +399,49 @@
 
         function atualizarSlide() {
 
-            slides.forEach((slide, indice) => {
+  slides.forEach((slide, indice) => {
 
-                slide.classList.toggle(
-                    "ativo",
-                    indice === slideAtual
-                );
+    slide.classList.toggle(
+      "ativo",
+      indice === slideAtual
+    );
 
-            });
-
-
-            /*
-             * Atualiza o contador.
-             */
-            contador.textContent =
-                `${slideAtual + 1} / ${TOTAL_DE_SLIDES}`;
+  });
 
 
-            /*
-             * Pausa qualquer vídeo que não esteja
-             * no slide atual.
-             */
-            slides.forEach((slide, indice) => {
+  // Atualiza o contador
+  contador.textContent =
+    `${slideAtual + 1} / ${TOTAL_DE_SLIDES}`;
 
-                const video =
-                    slide.querySelector("video");
 
-                if (indice !== slideAtual && video) {
+  // Para os vídeos dos outros slides
+  slides.forEach((slide, indice) => {
 
-                    video.pause();
+    const video =
+      slide.querySelector("video");
 
-                }
+    if (indice !== slideAtual && video) {
 
-            });
-        }
+      video.pause();
+      video.currentTime = 0;
+
+    }
+
+  });
+
+
+  // Inicia o vídeo do slide atual
+  const videoAtual =
+    slides[slideAtual].querySelector("video");
+
+  if (videoAtual) {
+
+    videoAtual.currentTime = 0;
+
+    videoAtual.play().catch(() => {});
+
+  }
+}
 
 
         /*
