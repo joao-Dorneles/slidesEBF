@@ -306,41 +306,16 @@
        10.mp4
        ================================================== -->
 
-    <main id="apresentacao"></main>
+    <main id="apresentacao">
+        <div id="dica">Use ← → ou deslize para trocar de slide</div>
 
-
-    <!-- ==================================================
-       DICA
-       ================================================== -->
-
-    <div id="dica">
-
-        Use ← → ou deslize para trocar de slide
-
-    </div>
-
-
-    <!-- ==================================================
-       CONTROLES
-       ================================================== -->
-
-    <nav id="controles">
-
-        <button class="botao" id="anterior" aria-label="Slide anterior" title="Slide anterior">
-            ‹
-        </button>
-
-
-        <span id="contador">
-            1 / 10
-        </span>
-
-
-        <button class="botao" id="proximo" aria-label="Próximo slide" title="Próximo slide">
-            ›
-        </button>
-
-    </nav>
+        <nav id="controles">
+            <button class="botao" id="anterior" aria-label="Slide anterior" title="Slide anterior">‹</button>
+            <span id="contador">1 / 10</span>
+            <button class="botao" id="proximo" aria-label="Próximo slide" title="Próximo slide">›</button>
+            <button class="botao" id="tela-cheia" aria-label="Tela cheia do vídeo" title="Tela cheia do vídeo">⛶</button>
+        </nav>
+    </main>
 
 
     <script>
@@ -389,6 +364,11 @@
         const botaoProximo =
             document.getElementById(
                 "proximo"
+            );
+
+        const botaoTelaCheia =
+            document.getElementById(
+                "tela-cheia"
             );
 
 
@@ -798,6 +778,76 @@
         botaoAnterior.addEventListener(
             "click",
             slideAnterior
+        );
+
+
+        /* ==================================================
+           TELA CHEIA
+           ================================================== */
+
+        botaoTelaCheia.addEventListener(
+            "click",
+            async function () {
+
+                try {
+
+                    if (
+                        document.fullscreenElement ===
+                        apresentacao
+                    ) {
+
+                        await document.exitFullscreen();
+
+                    } else if (
+                        apresentacao.requestFullscreen
+                    ) {
+
+                        await apresentacao.requestFullscreen();
+
+                    } else {
+
+                        throw new Error(
+                            "Este navegador não oferece suporte à tela cheia."
+                        );
+
+                    }
+
+                } catch (erro) {
+
+                    console.error(
+                        "Não foi possível alternar para tela cheia.",
+                        erro
+                    );
+
+                }
+
+            }
+        );
+
+
+        document.addEventListener(
+            "fullscreenchange",
+            function () {
+
+                const emTelaCheia =
+                    document.fullscreenElement ===
+                    apresentacao;
+
+
+                botaoTelaCheia.setAttribute(
+                    "aria-label",
+                    emTelaCheia
+                        ? "Sair da tela cheia"
+                        : "Tela cheia do vídeo"
+                );
+
+
+                botaoTelaCheia.title =
+                    emTelaCheia
+                        ? "Sair da tela cheia"
+                        : "Tela cheia do vídeo";
+
+            }
         );
 
 
