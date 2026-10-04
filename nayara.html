@@ -49,7 +49,7 @@
             display: flex;
         }
 
-        .slide img {
+        .slide video {
             width: 100%;
             height: 100%;
             display: block;
@@ -158,37 +158,37 @@
 
         <!-- SLIDE A -->
         <div class="slide ativo">
-            <img src="a.jpg" alt="Slide A">
+            <video src="a.mp4" playsinline preload="auto"></video>
             <audio src="a.mp3" preload="auto" loop></audio>
         </div>
 
         <div class="slide">
-            <img src="b.jpg" alt="Slide B">
+            <video src="b.mp4" playsinline preload="auto"></video>
             <audio src="b.mp3" preload="auto" loop></audio>
         </div>
 
         <div class="slide">
-            <img src="c.jpg" alt="Slide C">
+            <video src="c.mp4" playsinline preload="auto"></video>
             <audio src="c.mp3" preload="auto" loop></audio>
         </div>
 
         <div class="slide">
-            <img src="d.jpg" alt="Slide D">
+            <video src="d.mp4" playsinline preload="auto"></video>
             <audio src="d.mp3" preload="auto" loop></audio>
         </div>
 
         <div class="slide">
-            <img src="e.jpg" alt="Slide E">
+            <video src="e.mp4" playsinline preload="auto"></video>
             <audio src="e.mp3" preload="auto" loop></audio>
         </div>
 
         <div class="slide">
-            <img src="f.jpg" alt="Slide F">
+            <video src="f.mp4" playsinline preload="auto"></video>
             <audio src="f.mp3" preload="auto" loop></audio>
         </div>
 
         <div class="slide">
-            <img src="g.jpg" alt="Slide G">
+            <video src="g.mp4" playsinline preload="auto"></video>
             <audio src="g.mp3" preload="auto" loop></audio>
         </div>
 
@@ -212,6 +212,7 @@
 
     <script>
         const slides = document.querySelectorAll(".slide");
+        const videos = document.querySelectorAll(".slide video");
         const audios = document.querySelectorAll(".slide audio");
 
         const contador = document.getElementById("contador");
@@ -234,10 +235,20 @@
         let slideAtual = 0;
         let esconderControlesTimeout;
 
+        // Configuração dos vídeos
+        videos.forEach((video) => {
+            video.controls = false;
+            video.loop = true;
+            video.autoplay = true;
+            video.muted = true;
+            video.playsInline = true;
+            video.preload = "auto";
+        });
+
         // Configuração dos áudios
         audios.forEach((audio) => {
             audio.controls = false;
-            audio.loop = false;
+            audio.loop = true;
             audio.preload = "auto";
         });
 
@@ -247,11 +258,20 @@
                 slide.classList.toggle("ativo", i === slideAtual);
             });
 
-            // Para todos os áudios e volta para o início
+            // Para todos os vídeos e áudios e volta para o início
+            videos.forEach((video) => {
+                video.pause();
+                video.currentTime = 0;
+            });
+
             audios.forEach((audio) => {
                 audio.pause();
                 audio.currentTime = 0;
             });
+
+            // Inicia o vídeo correspondente ao slide atual
+            const videoAtual = videos[slideAtual];
+            videoAtual.play().catch(() => { });
 
             // Inicia o áudio correspondente ao slide atual
             const audioAtual = audios[slideAtual];
