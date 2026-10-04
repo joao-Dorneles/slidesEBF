@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentação Nayara</title>
+
+    <style>
+        :root {
+            --fundo: #000;
+            --controle: rgba(255, 255, 255, 0.75);
+            --controle-hover: rgba(255, 255, 255, 0.95);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: var(--fundo);
+        }
+
+        #apresentacao {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide.ativo {
+            display: flex;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+            object-position: center center;
+            background: #000;
+        }
+
+        #controles {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+        }
+
+        #controles.visivel {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .botao {
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: var(--controle);
+            color: #000;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .botao:hover {
+            background: var(--controle-hover);
+        }
+
+        #contador {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.55);
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        #contador.visivel {
+            opacity: 1;
+        }
+
+        #voltar {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 9px 14px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.75);
+            color: #000;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        #voltar.visivel {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #dica {
+            position: fixed;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            z-index: 90;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="apresentacao">
+
+        <!-- SLIDE A -->
+        <div class="slide ativo">
+            <img src="a.jpg" alt="Slide A">
+            <audio src="a.mp3" preload="auto" loop></audio>
+        </div>
+
+        <div class="slide">
+            <img src="b.jpg" alt="Slide B">
+            <audio src="b.mp3" preload="auto" loop></audio>
+        </div>
+
+        <div class="slide">
+            <img src="c.jpg" alt="Slide C">
+            <audio src="c.mp3" preload="auto" loop></audio>
+        </div>
+
+        <div class="slide">
+            <img src="d.jpg" alt="Slide D">
+            <audio src="d.mp3" preload="auto" loop></audio>
+        </div>
+
+        <div class="slide">
+            <img src="e.jpg" alt="Slide E">
+            <audio src="e.mp3" preload="auto" loop></audio>
+        </div>
+
+        <div class="slide">
+            <img src="f.jpg" alt="Slide F">
+            <audio src="f.mp3" preload="auto" loop></audio>
+        </div>
+
+        <div class="slide">
+            <img src="g.jpg" alt="Slide G">
+            <audio src="g.mp3" preload="auto" loop></audio>
+        </div>
+
+        <button id="voltar" onclick="window.location.href='index.html'">
+            ← Menu
+        </button>
+
+        <div id="contador">A / G</div>
+
+        <div id="controles">
+            <button class="botao" id="anterior" aria-label="Slide anterior">‹</button>
+            <button class="botao" id="proximo" aria-label="Próximo slide">›</button>
+            <button class="botao" id="tela-cheia" aria-label="Tela cheia">⛶</button>
+        </div>
+
+        <div id="dica">
+            Deslize ou use as setas para navegar
+        </div>
+
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll(".slide");
+        const audios = document.querySelectorAll(".slide audio");
+
+        const contador = document.getElementById("contador");
+        const controles = document.getElementById("controles");
+        const voltar = document.getElementById("voltar");
+        const apresentacao = document.getElementById("apresentacao");
+
+        const TOTAL_DE_SLIDES = 7;
+
+        const nomesSlides = [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+            "G"
+        ];
+
+        let slideAtual = 0;
+        let esconderControlesTimeout;
+
+        // Configuração dos áudios
+        audios.forEach((audio) => {
+            audio.controls = false;
+            audio.loop = false;
+            audio.preload = "auto";
+        });
+
+        function atualizarSlide() {
+
+            slides.forEach((slide, i) => {
+                slide.classList.toggle("ativo", i === slideAtual);
+            });
+
+            // Para todos os áudios e volta para o início
+            audios.forEach((audio) => {
+                audio.pause();
+                audio.currentTime = 0;
+            });
+
+            // Inicia o áudio correspondente ao slide atual
+            const audioAtual = audios[slideAtual];
+
+            audioAtual.currentTime = 0;
+            audioAtual.play().catch(() => { });
+
+            // Atualiza contador
+            contador.textContent =
+                `${nomesSlides[slideAtual]} / ${nomesSlides[TOTAL_DE_SLIDES - 1]}`;
+        }
+
+        function proximoSlide() {
+
+            if (slideAtual < TOTAL_DE_SLIDES - 1) {
+                slideAtual++;
+                atualizarSlide();
+            }
+
+            mostrarControles();
+        }
+
+        function slideAnterior() {
+
+            if (slideAtual > 0) {
+                slideAtual--;
+                atualizarSlide();
+            }
+
+            mostrarControles();
+        }
+
+        function irParaSlide(numero) {
+
+            if (numero >= 0 && numero < TOTAL_DE_SLIDES) {
+                slideAtual = numero;
+                atualizarSlide();
+            }
+
+            mostrarControles();
+        }
+
+        function mostrarControles() {
+
+            controles.classList.add("visivel");
+            contador.classList.add("visivel");
+            voltar.classList.add("visivel");
+
+            clearTimeout(esconderControlesTimeout);
+
+            esconderControlesTimeout = setTimeout(() => {
+                controles.classList.remove("visivel");
+                contador.classList.remove("visivel");
+                voltar.classList.remove("visivel");
+            }, 2500);
+        }
+
+        // Teclado
+        document.addEventListener("keydown", (evento) => {
+
+            switch (evento.key) {
+
+                case "ArrowRight":
+                case "PageDown":
+                case " ":
+                    evento.preventDefault();
+                    proximoSlide();
+                    break;
+
+                case "ArrowLeft":
+                case "PageUp":
+                    evento.preventDefault();
+                    slideAnterior();
+                    break;
+
+                case "Home":
+                    evento.preventDefault();
+                    irParaSlide(0);
+                    break;
+
+                case "End":
+                    evento.preventDefault();
+                    irParaSlide(TOTAL_DE_SLIDES - 1);
+                    break;
+            }
+        });
+
+        // Botões
+        document.getElementById("proximo")
+            .addEventListener("click", proximoSlide);
+
+        document.getElementById("anterior")
+            .addEventListener("click", slideAnterior);
+
+        // Mouse
+        document.addEventListener("mousemove", mostrarControles);
+
+        // Touch / swipe
+        let toqueInicialX = 0;
+        let toqueInicialY = 0;
+
+        document.addEventListener("touchstart", (evento) => {
+
+            toqueInicialX = evento.touches[0].clientX;
+            toqueInicialY = evento.touches[0].clientY;
+
+            mostrarControles();
+
+        }, { passive: true });
+
+        document.addEventListener("touchend", (evento) => {
+
+            const toqueFinalX = evento.changedTouches[0].clientX;
+            const toqueFinalY = evento.changedTouches[0].clientY;
+
+            const deltaX = toqueFinalX - toqueInicialX;
+            const deltaY = toqueFinalY - toqueInicialY;
+
+            if (
+                Math.abs(deltaX) > 55 &&
+                Math.abs(deltaX) > Math.abs(deltaY) * 1.3
+            ) {
+
+                if (deltaX < 0) {
+                    proximoSlide();
+                } else {
+                    slideAnterior();
+                }
+            }
+
+        }, { passive: true });
+
+        // Tela cheia
+        const botaoTelaCheia = document.getElementById("tela-cheia");
+
+        botaoTelaCheia.addEventListener("click", async () => {
+
+            try {
+
+                if (!document.fullscreenElement) {
+                    await apresentacao.requestFullscreen();
+                } else {
+                    await document.exitFullscreen();
+                }
+
+            } catch (erro) {
+                console.error("Erro ao entrar em tela cheia:", erro);
+            }
+
+        });
+
+        // Inicia no slide A
+        atualizarSlide();
+
+    </script>
+
+</body>
+
+</html>

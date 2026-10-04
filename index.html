@@ -1,25 +1,18 @@
-```html
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Apresentação</title>
+    <title>Apresentações</title>
 
     <style>
-        /* ==================================================
-       CONFIGURAÇÕES GERAIS
-       ================================================== */
-
-        :root {
-            --fundo: #000;
-            --controle: rgba(255, 255, 255, 0.10);
-            --controle-hover: rgba(255, 255, 255, 0.20);
-            --texto: rgba(255, 255, 255, 0.70);
-        }
 
         * {
             box-sizing: border-box;
@@ -30,262 +23,137 @@
             width: 100%;
             height: 100%;
             margin: 0;
+        }
 
-            overflow: hidden;
-
-            background: var(--fundo);
+        body {
+            background: #000;
+            color: white;
 
             font-family:
                 Arial,
                 Helvetica,
                 sans-serif;
-        }
-
-
-        /* ==================================================
-       ÁREA DA APRESENTAÇÃO
-       ================================================== */
-
-        #apresentacao {
-
-            position: relative;
-
-            width: 100vw;
-            height: 100vh;
-
-            background: #000;
 
             display: flex;
-
-            align-items: center;
-            justify-content: center;
-        }
-
-
-        /* ==================================================
-       SLIDES
-       ================================================== */
-
-        .slide {
-
-            position: absolute;
-
-            inset: 0;
-
-            display: none;
-
             align-items: center;
             justify-content: center;
 
-            background: #000;
+            overflow: hidden;
         }
 
 
-        .slide.ativo {
-            display: flex;
-        }
+        /* =========================================
+           MENU
+           ========================================= */
 
+        .menu {
 
-        /* ==================================================
-       VÍDEOS
-
-       Mantém a proporção 16:9 sem cortar o vídeo.
-       ================================================== */
-
-        .slide video {
-
-            width: 100%;
-            height: 100%;
-
-            display: block;
-
-            object-fit: contain;
-
-            object-position: center center;
-
-            background: #000;
-        }
-
-
-        /* ==================================================
-       CONTROLES DA APRESENTAÇÃO
-       ================================================== */
-
-        #controles {
-
-            position: fixed;
-
-            left: 50%;
-
-            bottom:
-                max(18px,
-                    env(safe-area-inset-bottom));
-
-            transform: translateX(-50%);
+            width: min(90%, 600px);
 
             display: flex;
+            flex-direction: column;
 
             align-items: center;
 
-            gap: 7px;
+            gap: 25px;
 
-            padding: 6px;
-
-            border-radius: 50px;
-
-            background:
-                rgba(0, 0, 0, 0.40);
-
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-
-            opacity: 0;
-
-            pointer-events: none;
-
-            transition:
-                opacity 0.25s ease;
-
-            z-index: 100;
+            text-align: center;
         }
 
 
-        /*
-      Quando recebe a classe "visivel",
-      os controles aparecem.
-    */
+        .titulo {
 
-        #controles.visivel {
+            font-size:
+                clamp(2rem, 6vw, 3.5rem);
 
-            opacity: 1;
+            margin: 0 0 25px;
 
-            pointer-events: auto;
+            font-weight: 600;
         }
 
 
-        /* ==================================================
-       BOTÕES
-       ================================================== */
+        .subtitulo {
+
+            margin-top: -15px;
+
+            margin-bottom: 15px;
+
+            color:
+                rgba(255, 255, 255, 0.55);
+
+            font-size: 1rem;
+        }
+
+
+        /* =========================================
+           BOTÕES
+           ========================================= */
 
         .botao {
 
-            width: 42px;
-            height: 42px;
+            width: 100%;
 
-            border: none;
+            max-width: 420px;
 
-            border-radius: 50%;
+            min-height: 70px;
 
-            background: var(--controle);
+            border: 1px solid
+                rgba(255, 255, 255, 0.12);
+
+            border-radius: 16px;
+
+            background:
+                rgba(255, 255, 255, 0.07);
 
             color: white;
 
-            font-size: 24px;
-
-            line-height: 1;
+            font-size:
+                clamp(1rem, 4vw, 1.25rem);
 
             cursor: pointer;
 
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
             transition:
-                background 0.15s ease,
-                transform 0.15s ease;
+                background 0.2s ease,
+                transform 0.2s ease,
+                border-color 0.2s ease;
         }
 
 
         .botao:hover {
 
             background:
-                var(--controle-hover);
+                rgba(255, 255, 255, 0.14);
+
+            border-color:
+                rgba(255, 255, 255, 0.25);
+
+            transform:
+                translateY(-2px);
         }
 
 
         .botao:active {
 
             transform:
-                scale(0.90);
+                scale(0.98);
         }
 
 
-        /* ==================================================
-       CONTADOR
-       ================================================== */
-
-        #contador {
-
-            min-width: 50px;
-
-            text-align: center;
-
-            color: var(--texto);
-
-            font-size: 12px;
-
-            user-select: none;
-        }
-
-
-        /* ==================================================
-       DICA INICIAL
-       ================================================== */
-
-        #dica {
-
-            position: fixed;
-
-            top: 18px;
-
-            left: 50%;
-
-            transform:
-                translateX(-50%);
-
-            color:
-                rgba(255, 255, 255, 0.45);
-
-            font-size: 12px;
-
-            pointer-events: none;
-
-            opacity: 1;
-
-            transition:
-                opacity 0.6s ease;
-
-            z-index: 90;
-        }
-
-
-        #dica.escondida {
-
-            opacity: 0;
-        }
-
-
-        /* ==================================================
-       CELULAR
-       ================================================== */
+        /* =========================================
+           CELULAR
+           ========================================= */
 
         @media (max-width: 600px) {
 
-            #controles {
-
-                bottom:
-                    max(10px,
-                        env(safe-area-inset-bottom));
+            .menu {
+                width: 85%;
             }
-
 
             .botao {
-
-                width: 40px;
-                height: 40px;
+                min-height: 64px;
             }
         }
+
     </style>
 
 </head>
@@ -294,816 +162,35 @@
 <body>
 
 
-    <!-- ==================================================
-       APRESENTAÇÃO
+    <main class="menu">
 
-       O JavaScript vai criar automaticamente:
+        <h1 class="titulo">
+            Apresentações
+        </h1>
 
-       1.mp4
-       2.mp4
-       3.mp4
-       ...
-       10.mp4
-       ================================================== -->
+        <p class="subtitulo">
+            Selecione uma apresentação
+        </p>
 
-    <main id="apresentacao">
-        <div id="dica">Use ← → ou deslize para trocar de slide</div>
 
-        <nav id="controles">
-            <button class="botao" id="anterior" aria-label="Slide anterior" title="Slide anterior">‹</button>
-            <span id="contador">1 / 10</span>
-            <button class="botao" id="proximo" aria-label="Próximo slide" title="Próximo slide">›</button>
-            <button class="botao" id="tela-cheia" aria-label="Tela cheia do vídeo" title="Tela cheia do vídeo">⛶</button>
-        </nav>
+        <button
+            class="botao"
+            onclick="location.href='nel.html'"
+        >
+            Apresentação Nel
+        </button>
+
+
+        <button
+            class="botao"
+            onclick="location.href='nayara.html'"
+        >
+            Apresentação Nayara
+        </button>
+
     </main>
 
-
-    <script>
-
-        /* ==================================================
-           CONFIGURAÇÃO
-           ================================================== */
-
-        const TOTAL_DE_SLIDES = 10;
-
-
-        /* ==================================================
-           ELEMENTOS DA PÁGINA
-           ================================================== */
-
-        const apresentacao =
-            document.getElementById(
-                "apresentacao"
-            );
-
-
-        const controles =
-            document.getElementById(
-                "controles"
-            );
-
-
-        const contador =
-            document.getElementById(
-                "contador"
-            );
-
-
-        const dica =
-            document.getElementById(
-                "dica"
-            );
-
-
-        const botaoAnterior =
-            document.getElementById(
-                "anterior"
-            );
-
-
-        const botaoProximo =
-            document.getElementById(
-                "proximo"
-            );
-
-        const botaoTelaCheia =
-            document.getElementById(
-                "tela-cheia"
-            );
-
-
-        /* ==================================================
-           ESTADO DA APRESENTAÇÃO
-           ================================================== */
-
-        let slideAtual = 0;
-
-        let timerControles = null;
-
-        let inicioToqueX = 0;
-
-        let inicioToqueY = 0;
-
-
-        /* ==================================================
-           CRIAÇÃO AUTOMÁTICA DOS SLIDES
-           ================================================== */
-
-        for (
-            let i = 1;
-            i <= TOTAL_DE_SLIDES;
-            i++
-        ) {
-
-            /*
-             * Cria o slide.
-             */
-
-            const slide =
-                document.createElement(
-                    "section"
-                );
-
-
-            slide.className =
-                "slide";
-
-
-            /*
-             * O primeiro slide começa ativo.
-             */
-
-            if (i === 1) {
-
-                slide.classList.add(
-                    "ativo"
-                );
-            }
-
-
-            /*
-             * Cria o vídeo.
-             */
-
-            const video =
-                document.createElement(
-                    "video"
-                );
-
-
-            /*
-             * Nome do arquivo:
-      
-             * 1.mp4
-             * 2.mp4
-             * ...
-             * 10.mp4
-             */
-
-            video.src =
-                `${i}.mp4`;
-
-
-            /*
-             * NÃO mostrar controles do vídeo.
-             */
-
-            video.controls =
-                false;
-
-
-            /*
-             * Loop infinito.
-             */
-
-            video.loop =
-                true;
-
-
-            /*
-             * Tentar iniciar automaticamente.
-             */
-
-            video.autoplay =
-                true;
-
-
-            /*
-             * Necessário para o autoplay
-             * funcionar de forma confiável
-             * nos navegadores.
-             */
-
-            video.muted =
-                true;
-
-
-            /*
-             * Melhor compatibilidade
-             * com celulares.
-             */
-
-            video.playsInline =
-                true;
-
-
-            /*
-             * Pré-carrega o vídeo.
-             */
-
-            video.preload =
-                "auto";
-
-
-            /*
-             * Dimensões de referência 16:9.
-             */
-
-            video.setAttribute(
-                "width",
-                "1920"
-            );
-
-
-            video.setAttribute(
-                "height",
-                "1080"
-            );
-
-
-            /*
-             * Coloca o vídeo dentro do slide.
-             */
-
-            slide.appendChild(
-                video
-            );
-
-
-            /*
-             * Coloca o slide na apresentação.
-             */
-
-            apresentacao.appendChild(
-                slide
-            );
-
-        }
-
-
-        /* ==================================================
-           BUSCA TODOS OS SLIDES
-           ================================================== */
-
-        const slides = [
-            ...document.querySelectorAll(
-                ".slide"
-            )
-        ];
-
-
-        /* ==================================================
-           MOSTRAR CONTROLES
-           ================================================== */
-
-        function mostrarControles() {
-
-            controles.classList.add(
-                "visivel"
-            );
-
-
-            clearTimeout(
-                timerControles
-            );
-
-
-            /*
-             * Esconde depois de 2,5 segundos
-             * sem interação.
-             */
-
-            timerControles =
-                setTimeout(
-                    function () {
-
-                        controles.classList.remove(
-                            "visivel"
-                        );
-
-                    },
-                    2500
-                );
-        }
-
-
-        /* ==================================================
-           ATUALIZAR SLIDE
-           ================================================== */
-
-        function atualizarSlide() {
-
-
-            /*
-             * Ativa somente o slide atual.
-             */
-
-            slides.forEach(
-                (slide, indice) => {
-
-                    slide.classList.toggle(
-                        "ativo",
-                        indice === slideAtual
-                    );
-
-                }
-            );
-
-
-            /*
-             * Atualiza o contador.
-             */
-
-            contador.textContent =
-                `${slideAtual + 1} / ${TOTAL_DE_SLIDES}`;
-
-
-            /*
-             * Para todos os vídeos que
-             * não estão no slide atual.
-             */
-
-            slides.forEach(
-                (slide, indice) => {
-
-                    const video =
-                        slide.querySelector(
-                            "video"
-                        );
-
-
-                    if (
-                        indice !== slideAtual &&
-                        video
-                    ) {
-
-                        video.pause();
-
-                        /*
-                         * Quando sair do slide,
-                         * volta o vídeo para o início.
-                         */
-
-                        video.currentTime = 0;
-
-                    }
-
-                }
-            );
-
-
-            /*
-             * Pega o vídeo atual.
-             */
-
-            const videoAtual =
-                slides[
-                    slideAtual
-                ].querySelector(
-                    "video"
-                );
-
-
-            /*
-             * Inicia o vídeo atual.
-             */
-
-            if (videoAtual) {
-
-                videoAtual.currentTime =
-                    0;
-
-
-                /*
-                 * O catch evita erro no console
-                 * caso o navegador bloqueie o autoplay.
-                 */
-
-                videoAtual
-                    .play()
-                    .catch(
-                        () => { }
-                    );
-
-            }
-
-        }
-
-
-        /* ==================================================
-           IR PARA UM SLIDE ESPECÍFICO
-           ================================================== */
-
-        function irParaSlide(
-            indice
-        ) {
-
-
-            /*
-             * Não deixa passar antes
-             * do primeiro slide.
-             */
-
-            if (indice < 0) {
-
-                indice = 0;
-            }
-
-
-            /*
-             * Não deixa passar depois
-             * do último slide.
-             */
-
-            if (
-                indice >= TOTAL_DE_SLIDES
-            ) {
-
-                indice =
-                    TOTAL_DE_SLIDES - 1;
-            }
-
-
-            slideAtual =
-                indice;
-
-
-            atualizarSlide();
-
-
-            mostrarControles();
-
-        }
-
-
-        /* ==================================================
-           PRÓXIMO SLIDE
-           ================================================== */
-
-        function proximoSlide() {
-
-            if (
-                slideAtual <
-                TOTAL_DE_SLIDES - 1
-            ) {
-
-                irParaSlide(
-                    slideAtual + 1
-                );
-
-            }
-
-        }
-
-
-        /* ==================================================
-           SLIDE ANTERIOR
-           ================================================== */
-
-        function slideAnterior() {
-
-            if (
-                slideAtual > 0
-            ) {
-
-                irParaSlide(
-                    slideAtual - 1
-                );
-
-            }
-
-        }
-
-
-        /* ==================================================
-           BOTÕES
-           ================================================== */
-
-        botaoProximo.addEventListener(
-            "click",
-            proximoSlide
-        );
-
-
-        botaoAnterior.addEventListener(
-            "click",
-            slideAnterior
-        );
-
-
-        /* ==================================================
-           TELA CHEIA
-           ================================================== */
-
-        botaoTelaCheia.addEventListener(
-            "click",
-            async function () {
-
-                try {
-
-                    if (
-                        document.fullscreenElement ===
-                        apresentacao
-                    ) {
-
-                        await document.exitFullscreen();
-
-                    } else if (
-                        apresentacao.requestFullscreen
-                    ) {
-
-                        await apresentacao.requestFullscreen();
-
-                    } else {
-
-                        throw new Error(
-                            "Este navegador não oferece suporte à tela cheia."
-                        );
-
-                    }
-
-                } catch (erro) {
-
-                    console.error(
-                        "Não foi possível alternar para tela cheia.",
-                        erro
-                    );
-
-                }
-
-            }
-        );
-
-
-        document.addEventListener(
-            "fullscreenchange",
-            function () {
-
-                const emTelaCheia =
-                    document.fullscreenElement ===
-                    apresentacao;
-
-
-                botaoTelaCheia.setAttribute(
-                    "aria-label",
-                    emTelaCheia
-                        ? "Sair da tela cheia"
-                        : "Tela cheia do vídeo"
-                );
-
-
-                botaoTelaCheia.title =
-                    emTelaCheia
-                        ? "Sair da tela cheia"
-                        : "Tela cheia do vídeo";
-
-            }
-        );
-
-
-        /* ==================================================
-           TECLADO
-           ==================================================
-    
-           → / Espaço / PageDown
-           = próximo
-    
-           ← / PageUp
-           = anterior
-    
-           Home
-           = primeiro
-    
-           End
-           = último
-           ================================================== */
-
-        document.addEventListener(
-            "keydown",
-            function (evento) {
-
-
-                /*
-                 * Se o usuário estiver digitando
-                 * em algum campo, não interfere.
-                 */
-
-                const elemento =
-                    document.activeElement;
-
-
-                if (
-                    elemento &&
-                    (
-                        elemento.tagName ===
-                        "INPUT" ||
-
-                        elemento.tagName ===
-                        "TEXTAREA"
-                    )
-                ) {
-
-                    return;
-                }
-
-
-                switch (
-                evento.key
-                ) {
-
-
-                    case "ArrowRight":
-
-                    case "PageDown":
-
-                    case " ":
-
-                        evento.preventDefault();
-
-                        proximoSlide();
-
-                        break;
-
-
-                    case "ArrowLeft":
-
-                    case "PageUp":
-
-                        evento.preventDefault();
-
-                        slideAnterior();
-
-                        break;
-
-
-                    case "Home":
-
-                        evento.preventDefault();
-
-                        irParaSlide(0);
-
-                        break;
-
-
-                    case "End":
-
-                        evento.preventDefault();
-
-                        irParaSlide(
-                            TOTAL_DE_SLIDES - 1
-                        );
-
-                        break;
-
-                }
-
-            }
-        );
-
-
-        /* ==================================================
-           MOUSE
-    
-           Mexeu o mouse:
-           mostra os controles.
-           ================================================== */
-
-        document.addEventListener(
-            "mousemove",
-            mostrarControles
-        );
-
-
-        /* ==================================================
-           TOUCH — INÍCIO DO GESTO
-           ================================================== */
-
-        document.addEventListener(
-            "touchstart",
-            function (evento) {
-
-
-                const toque =
-                    evento.changedTouches[0];
-
-
-                inicioToqueX =
-                    toque.clientX;
-
-
-                inicioToqueY =
-                    toque.clientY;
-
-
-                mostrarControles();
-
-            },
-            {
-                passive: true
-            }
-        );
-
-
-        /* ==================================================
-           TOUCH — FINAL DO GESTO
-           ================================================== */
-
-        document.addEventListener(
-            "touchend",
-            function (evento) {
-
-
-                const toque =
-                    evento.changedTouches[0];
-
-
-                const fimX =
-                    toque.clientX;
-
-
-                const fimY =
-                    toque.clientY;
-
-
-                const diferencaX =
-                    fimX -
-                    inicioToqueX;
-
-
-                const diferencaY =
-                    fimY -
-                    inicioToqueY;
-
-
-                /*
-                 * Considera como gesto somente
-                 * movimentos horizontais claros.
-                 *
-                 * Isso evita trocar de slide
-                 * por acidente.
-                 */
-
-                if (
-
-                    Math.abs(diferencaX) >
-                    55 &&
-
-                    Math.abs(diferencaX) >
-                    Math.abs(diferencaY) * 1.3
-
-                ) {
-
-
-                    /*
-                     * Deslizou para a esquerda:
-                     * próximo.
-                     */
-
-                    if (
-                        diferencaX < 0
-                    ) {
-
-                        proximoSlide();
-
-                    }
-
-
-                    /*
-                     * Deslizou para a direita:
-                     * anterior.
-                     */
-
-                    else {
-
-                        slideAnterior();
-
-                    }
-
-                }
-
-            },
-            {
-                passive: true
-            }
-        );
-
-
-        /* ==================================================
-           ESCONDER DICA
-           ================================================== */
-
-        setTimeout(
-            function () {
-
-                dica.classList.add(
-                    "escondida"
-                );
-
-            },
-            4000
-        );
-
-
-        /* ==================================================
-           INICIALIZAÇÃO
-           ================================================== */
-
-        atualizarSlide();
-
-
-    </script>
 
 </body>
 
 </html>
-```
