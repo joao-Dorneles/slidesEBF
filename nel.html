@@ -162,12 +162,6 @@
             <audio src="1.mp3" preload="auto" loop></audio>
         </div>
 
-        <!-- SLIDE 2 -->
-        <div class="slide">
-            <video src="2.mp4" playsinline preload="auto"></video>
-            <audio src="2.mp3" preload="auto" loop></audio>
-        </div>
-
         <!-- SLIDE 3 -->
         <div class="slide">
             <video src="3.mp4" playsinline preload="auto"></video>
@@ -220,7 +214,7 @@
             ← Menu
         </button>
 
-        <div id="contador">1 / 10</div>
+        <div id="contador">1 / 9</div>
 
         <div id="controles">
             <button class="botao" id="anterior" aria-label="Slide anterior">‹</button>
@@ -244,7 +238,7 @@
         const voltar = document.getElementById("voltar");
         const apresentacao = document.getElementById("apresentacao");
 
-        const TOTAL_DE_SLIDES = 10;
+        const TOTAL_DE_SLIDES = 9;
 
         let slideAtual = 0;
         let esconderControlesTimeout;
